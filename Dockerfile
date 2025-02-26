@@ -1,17 +1,12 @@
-# Build Phase using Node.js
-FROM node:18 AS build
+FROM node:20 as build
 WORKDIR /app
 
-# Install pnpm
-RUN corepack enable
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
+COPY package*.json .
+RUN npm install
 COPY . .
-RUN pnpm run build
 
-# Serve with Nginx
-FROM nginx:alpine
+RUN npm run build
+
+FROM nginx
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
