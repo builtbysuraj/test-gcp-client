@@ -26,7 +26,12 @@ export default function App() {
   }, [])
 
   return (
-    <div>
+    <div
+      style={{
+        background: 'black',
+        color: 'white',
+      }}
+    >
       <div>App</div>
       <h1>Total {json.length}</h1>
       <pre>{JSON.stringify(json, null, 2)}</pre>
